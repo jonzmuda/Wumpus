@@ -3,7 +3,7 @@
 ## Developers
 • Jon Zmuda
 
-• Not Filled
+• Top-Of-Tech
 
 • Not Filled
 
@@ -35,9 +35,9 @@
 
 13 ) All Bot Embeds
 
-## Not Filled: Co-Developer
+## Top-Of-Tech: Co-Developer
 
-1 )
+1 ) 
 
 2 )
 
