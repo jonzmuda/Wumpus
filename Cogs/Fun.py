@@ -1,8 +1,12 @@
+import json
+from aiohttp.client import request
 import discord
 from discord.ext import commands
 import datetime
 import random
 import asyncio
+import aiohttp
+from discord.ext.commands.cooldowns import BucketType
 class Fun(commands.Cog, name="fun"):
     def __init__(self, bot):
         self.bot = bot
@@ -84,5 +88,52 @@ class Fun(commands.Cog, name="fun"):
             await ctx.send("You need to ask a question!")
         else:
             await ctx.send(embed=embed)
+
+    @commands.command(name="fact")
+    @commands.cooldown(1, 86400, BucketType.user)
+    async def fact(self, context):
+        """
+        Get a daily fact, command can only be ran once every day per user.
+        """
+        # This will prevent your bot from stopping everything when doing a web request - see: https://discordpy.readthedocs.io/en/stable/faq.html#how-do-i-make-a-web-request
+        async with aiohttp.ClientSession() as session:
+            async with session.get("https://uselessfacts.jsph.pl/random.json?language=en") as request:
+                if request.status == 200:
+                    data = await request.json()
+                    embed = discord.Embed(description=data["text"], color=0xD75BF4)
+                    await context.send(embed=embed)
+                else:
+                    embed = discord.Embed(
+                        title="Error!",
+                        description="There is something wrong with the API, please try again later",
+                        color=0xE02B2B
+                    )
+                    await context.send(embed=embed)
+                    # We need to reset the cool down since the user didn't got his daily fact.
+                    self.dailyfact.reset_cooldown(context)
+
+    @commands.command(name="bitcoin")
+    async def bitcoin(self, context):
+        """
+        Get the current price of bitcoin.
+        """
+        url = "https://api.coindesk.com/v1/bpi/currentprice/BTC.json"
+        # Async HTTP request
+        async with aiohttp.ClientSession() as session:
+            raw_response = await session.get(url)
+            response = await raw_response.text()
+            response = json.loads(response)
+            embed = discord.Embed(
+                title=":information_source: Info",
+                description=f"Bitcoin price is: ${response['bpi']['USD']['rate']}",
+                color=0x42F56C
+            )
+            await context.send(embed=embed)
+
+    @commands.command()
+    async def roast(self, ctx):
+        response = request.get(url="https://evilinsult.com/generate_insult.php?lang=en&type=json")
+        roast = json.loads(response.text)
+        await ctx.send(roast['insult'])
 def setup(bot):
     bot.add_cog(Fun(bot))
