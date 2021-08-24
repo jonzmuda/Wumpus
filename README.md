@@ -5,35 +5,15 @@
 
 • Top-Of-Tech
 
-• Not Filled
+• Ozymandias
 
 ## Jon Zmuda: Head Developer
 
-01 ) Dice Command 
+01 ) 
 
-02 ) 8Ball Command            
+02 )         
 
-03 ) Rock Paper Scissors
-
-04 ) Say                      
-
-05 ) Ban                         
-
-06 ) Mute
-
-07 ) Warn
-
-08 ) Purge
-
-09 ) Report
-
-10 ) Logging
-
-11 ) Reaction Roles
-
-12 ) Chat Filter
-
-13 ) All Bot Embeds
+03 )
 
 ## Top-Of-Tech: Co-Developer
 
@@ -43,7 +23,7 @@
 
 3 )
 
-## Not Filled: Co-Developer
+## Ozymandias: Co-Developer
 
 1 )
 
