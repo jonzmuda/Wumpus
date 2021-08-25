@@ -128,6 +128,7 @@ class Template(commands.Cog, name="Template"):
                 if bank > user_db[1]:
                     embed = discord.Embed(title=f"You don't have that much money!", color=0xFF0000)
                     await ctx.send(embed=embed)
+                    return
 
                 hand = user_db[1]-bank
                 
@@ -154,7 +155,7 @@ class Template(commands.Cog, name="Template"):
 
                 self.cursor.execute("""UPDATE bank
                         SET money_in_hand=?, money_in_bank=?
-                        WHERE user_id=?""", (hand, bank, ctx.author.id,))
+                        WHERE user_id=?""", (hand + user_db[1], bank, ctx.author.id,))
                 self.conn.commit()
 
                 embed = discord.Embed(title=f"{ctx.author} withdrew {hand} dollars!", color=0x109414)
@@ -165,12 +166,13 @@ class Template(commands.Cog, name="Template"):
                 if hand > user_db[2]:
                     embed = discord.Embed(title=f"You don't have that much money!", color=0xFF0000)
                     await ctx.send(embed=embed)
+                    return
 
                 bank = user_db[2]-hand
                 
                 self.cursor.execute("""UPDATE bank
                         SET money_in_hand=?, money_in_bank=?
-                        WHERE user_id=?""", (hand, bank, ctx.author.id,))
+                        WHERE user_id=?""", (hand + user_db[1], bank, ctx.author.id,))
                 self.conn.commit()
 
                 embed = discord.Embed(title=f"{ctx.author} withdrew {hand} dollars!", color=0x109414)
