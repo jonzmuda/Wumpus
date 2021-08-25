@@ -198,6 +198,7 @@ class Template(commands.Cog, name="Template"):
             if hand < amount:
                 embed = discord.Embed(title=f"You don't have that much money!", color=0xFF0000)
                 await ctx.send(embed=embed)
+                return
 
             hand = hand - amount
             
@@ -226,6 +227,7 @@ class Template(commands.Cog, name="Template"):
 
                 embed = discord.Embed(title=f"You don't have that much money!", color=0xFF0000)
                 await ctx.send(embed=embed)
+                return
 
             elif not recipient_db:
                 self.cursor.execute("""INSERT INTO bank VALUES (?, 0, 0)""",
@@ -320,8 +322,16 @@ class Template(commands.Cog, name="Template"):
         top_user_db = self.cursor.fetchall()
 
         embed=discord.Embed(title="Leaderboard")
+        print(top_user_db)
 
-        for user_db in reversed(top_user_db):
+        def sorter(e):
+            return e[2]
+
+        top_user_db.sort(key=sorter)
+
+        top_user_db = reversed(top_user_db)
+
+        for user_db in top_user_db:
             user = await self.bot.fetch_user(int(user_db[0]))
             embed.add_field(name=user, value=f"{user_db[2]} :moneybag:", inline=False)
 
